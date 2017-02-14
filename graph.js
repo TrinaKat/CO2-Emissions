@@ -35,14 +35,14 @@ var degrees = -30;    // Degrees to rotate heading
 var rad = 0;
 
 // Position (8, 5, 30)
-var x = 7;      // X-axis displacement from origin
-var y = -6;      // Y-axis displacement from origin
-var z = -26;     // Z-axis displacement from origin
+var x = 5;      // X-axis displacement from origin
+var y = -5;      // Y-axis displacement from origin
+var z = -21;     // Z-axis displacement from origin
 
 // Static Initial Position (for reset)
-var x0 = 7;      // X-axis displacement from origin
-var y0 = -6;      // Y-axis displacement from origin
-var z0 = -26;     // Z-axis displacement from origin
+var x0 = 5;      // X-axis displacement from origin
+var y0 = -5;      // Y-axis displacement from origin
+var z0 = -21;     // Z-axis displacement from origin
 
 
 // Data
