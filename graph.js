@@ -60,7 +60,7 @@ var CO2_world = [];
 // Lighting
 // variables needed for Phong lighting
 // the light is in front of the cube, which is located st z = -10
-var lightPosition = vec4(2.0, 2.0, -5.0, 0.0 );   
+var lightPosition = vec4(-5.0, -5.0, -25, 0.0 );   
 var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
