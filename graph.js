@@ -647,6 +647,7 @@ function drawSign()
 function drawAxes()
 {
     enableTexture = false;
+    gl.uniform1f(uniform_enableTexture, enableTexture);
     // Create unit cross with 4 vertices (0.5 + 0.5 = 1)
     axisPoints = [
         vec3( 0.0, 0.0, 0.0 ),
@@ -685,4 +686,5 @@ function drawAxes()
     gl.drawArrays(gl.LINES, 0, 6);
 
     enableTexture = true;
+    gl.uniform1f(uniform_enableTexture, enableTexture);
 }

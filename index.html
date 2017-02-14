@@ -77,17 +77,17 @@ uniform bool enableTexture;
 
 void main() {
     // gl_FragColor is a special variable a fragment shader is responsible for setting
-    gl_FragColor = fColor *  color * texture2D( texture, fTexCoord );
-    // if( enableTexture )
-    // {
-    //   //gl_FragColor = texture2D( texture, fTexCoord );
-    //   //gl_FragColor = color + vec4( 1.0, 0.1, 0.5, 1.0 );
-    //   gl_FragColor = fColor * color * texture2D( texture, fTexCoord ); //TEXTURE
-    // }
-    // else
-    // {
-    //   gl_FragColor = fColor * color;
-    // }
+    //gl_FragColor = fColor *  color * texture2D( texture, fTexCoord );
+    if( enableTexture )
+    {
+      //gl_FragColor = texture2D( texture, fTexCoord );
+      //gl_FragColor = color + vec4( 1.0, 0.1, 0.5, 1.0 );
+      gl_FragColor = fColor * color * texture2D( texture, fTexCoord ); //TEXTURE
+    }
+    else
+    {
+      gl_FragColor = fColor * color;
+    }
 }
 </script>
 
