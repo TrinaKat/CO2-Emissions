@@ -263,6 +263,7 @@ window.onload = function init() {
     cubePoints();
 
     // Create and store data into the normals buffer
+    // TODO: there was a warning??? about index out of range or whatever
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
@@ -294,6 +295,23 @@ window.onload = function init() {
     // Set uniform color and transformation matrix
     color = gl.getUniformLocation(program, "color");
     model_matrix = gl.getUniformLocation(program, "model_matrix");
+
+    // Lighting
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
+
+    gl.uniform4fv(gl.getUniformLocation(program, "ambientProduct"),
+       flatten(ambientProduct));
+    gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
+       flatten(diffuseProduct) );
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), 
+       flatten(specularProduct) );  
+    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), 
+       flatten(lightPosition) );
+       
+    gl.uniform1f(gl.getUniformLocation(program, 
+       "shininess"),materialShininess);
 
     // Draw the primitives
   render();
