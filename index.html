@@ -8,6 +8,13 @@
 attribute vec4 vPosition;
 uniform mat4 model_matrix;
 
+// Lighting
+attribute vec3 vNormal;  // normals for each vertex
+// uniforms for lighting 
+uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+uniform vec4 lightPosition;
+uniform float shininess;
+
 void main()
 {
     // gl_Position is a special variable a vertex shader is responsible for setting
