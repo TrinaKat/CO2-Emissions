@@ -57,7 +57,23 @@ var CO2_1960 = [];
 var CO2_2013 = [];
 var CO2_world = [];
 
+// Lighting
+// variables needed for Phong lighting
+// the light is in front of the cube, which is located st z = -10
+var lightPosition = vec4(2.0, 2.0, -5.0, 0.0 );   
+var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
+var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
+// variables needed for the material of the cube
+var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
+var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0);
+var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
+var materialShininess = 100.0;
+
+var ambientProduct, diffuseProduct, specularProduct;
+var viewerPos;
+var normalsArray = [];
 
 
 window.onload = function init() {
@@ -321,12 +337,30 @@ function cubePoints()
 // Called for each of the 8 cubes for each face
 function quad( a, b, c, d )
 {
-    var indices = [ a, b, c, a, c, d ];
+    // var indices = [ a, b, c, a, c, d ];
 
-    for ( var i = 0; i < indices.length; i++ )
-        {
-            points.push( vertices[indices[i]]);
-        }
+    // for ( var i = 0; i < indices.length; i++ )
+    //     {
+    //         points.push( vertices[indices[i]]);
+    //     }
+     var t1 = subtract(vertices[b], vertices[a]);
+     var t2 = subtract(vertices[c], vertices[b]);
+     var normal = cross(t1, t2);
+     var normal = vec3(normal);
+
+
+     points.push(vertices[a]); 
+     normalsArray.push(normal); 
+     points.push(vertices[b]); 
+     normalsArray.push(normal); 
+     points.push(vertices[c]); 
+     normalsArray.push(normal);   
+     points.push(vertices[a]);  
+     normalsArray.push(normal); 
+     points.push(vertices[c]); 
+     normalsArray.push(normal); 
+     points.push(vertices[d]); 
+     normalsArray.push(normal);    
 }
 
 function drawRectPrism( numBar, dataVal, recent )
