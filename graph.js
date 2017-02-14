@@ -31,18 +31,18 @@ var ortho_matrix;
 // Transformations
 var fov = 45;
 var aspect = 1;     // Aspect ratio, horizontal FOV
-var degrees = 0;    // Degrees to rotate heading
+var degrees = -30;    // Degrees to rotate heading
 var rad = 0;
 
 // Position (8, 5, 30)
-var x = -8;      // X-axis displacement from origin
-var y = -7;      // Y-axis displacement from origin
-var z = -30;     // Z-axis displacement from origin
+var x = 7;      // X-axis displacement from origin
+var y = -6;      // Y-axis displacement from origin
+var z = -26;     // Z-axis displacement from origin
 
 // Static Initial Position (for reset)
-var x0 = -8;      // X-axis displacement from origin
-var y0 = -7;      // Y-axis displacement from origin
-var z0 = -30;     // Z-axis displacement from origin
+var x0 = 7;      // X-axis displacement from origin
+var y0 = -6;      // Y-axis displacement from origin
+var z0 = -26;     // Z-axis displacement from origin
 
 
 // Data
@@ -60,14 +60,14 @@ var CO2_world = [];
 // Lighting
 // variables needed for Phong lighting
 // the light is in front of the cube, which is located st z = -10
-var lightPosition = vec4(10, 10, -10, 0.0 );   
-var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
+var lightPosition = vec4(10, 10, -5, 0.0 );   
+var lightAmbient = vec4(0.4, 0.4, 0.4, 1.0 );
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
 // variables needed for the material of the cube
-var materialAmbient = vec4( 0.0, 1.0, 1.0, 1.0 );
-var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0);
+var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
+var materialDiffuse = vec4( 1.0, 1.0, 1.0, 1.0);
 var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
 var materialShininess = 100.0;
 
@@ -165,7 +165,7 @@ window.onload = function init() {
             y = y0;
             z = z0;
             fov = 45;
-            degrees = 0;
+            degrees = -30;
         }
 
         // FOV = 45 to start
@@ -407,12 +407,14 @@ function drawRectPrism( numBar, dataVal, recent )
     if ( recent )
     {
         zVal = 0.0;
-        colVal = 4;
+        // colVal = 4;
+        colVal = 3;   // green
     }
     else
     {
         zVal = 1.0;
-        colVal = 6;
+        // colVal = 6;
+        colVal = 5;  // cyan
     }
 
     transformMatrix = mult( transformMatrix, translate( posHoriz, 0.0, zVal ));

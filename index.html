@@ -70,7 +70,8 @@ varying vec4 fColor;
 
 void main() {
     // gl_FragColor is a special variable a fragment shader is responsible for setting
-  gl_FragColor = fColor;
+  // gl_FragColor = fColor * color;
+  gl_FragColor = fColor *  color;
 }
 </script>
 
