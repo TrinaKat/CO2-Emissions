@@ -345,7 +345,7 @@ function render()
     drawRectPrism( 2, 1000000 );
     drawRectPrism( 3, 14500000 );*/
 
-    drawSign();
+    // drawSign();
 
     window.requestAnimFrame(render);
 }
