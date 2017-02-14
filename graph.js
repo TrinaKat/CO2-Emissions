@@ -7,10 +7,8 @@ var program;
 
 // Data storage/points
 var vertices = [];
-var colors = [];
 var points = [];
 var axisPoints = [];
-var signPoints = [];
 
 // Uniforms
 var vPosition;
@@ -21,7 +19,6 @@ var vertexBuffer;
 var colorBuffer;
 var axisBuffer;
 var outlineBuffer;
-var signBuffer;
 
 // Matrices
 var model_matrix;
@@ -221,18 +218,6 @@ window.onload = function init() {
         vec4( 1.0, 0.0, 1.0, 1.0 )
     ];
 
-    // 8 colors for 8 cubes
-    colors = [
-        [ 1.0, 0.0, 0.0, 1.0 ],  // red
-        [ 1.0, 0.5, 0.0, 1.0 ],  // orange
-        [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
-        [ 0.0, 1.0, 0.0, 1.0 ],  // green
-        [ 0.0, 0.0, 1.0, 1.0 ],  // blue
-        [ 0.0, 1.0, 1.0, 1.0 ],  // cyan
-        [ 0.6, 0.0, 0.6, 1.0 ],  // purple
-        [ 1.0, 0.1, 0.5, 1.0 ]   // pink
-    ];
-
     // 8 colors for 8 bars //TODO
     color1960 = [
         [ 1.0, 0.0, 0.0, 1.0 ],  // red
@@ -355,7 +340,7 @@ window.onload = function init() {
     gl.uniform1f(gl.getUniformLocation(program,
        "shininess"),materialShininess);
 
-    // TEXTURE TODO
+    // TEXTURE
     uniform_enableTexture = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
 
     //makeTexture();
@@ -407,7 +392,6 @@ function render()
 
 function makeTexture()
 {
-    //makeSign(1, 0, 3, 2);
 
     vTexCoord = gl.getAttribLocation( program, "vTexCoord" ); //TEXTURE
     gl.vertexAttribPointer( vTexCoord, 2, gl.FLOAT, false, 0, 0 );
@@ -439,7 +423,6 @@ function configureTexture( image ) { //TEXTURE
 
     gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
 
-    //gl.bindTexture( gl.TEXTURE_2D, null );
 }
 
 
@@ -457,12 +440,6 @@ function cubePoints()
 // Called for each of the 8 cubes for each face
 function quad( a, b, c, d )
 {
-    // var indices = [ a, b, c, a, c, d ];
-
-    // for ( var i = 0; i < indices.length; i++ )
-    //     {
-    //         points.push( vertices[indices[i]]);
-    //     }
      var t1 = subtract(vertices[b], vertices[a]);
      var t2 = subtract(vertices[c], vertices[b]);
      var normal = cross(t1, t2);
@@ -612,36 +589,6 @@ function outlineCube( scaleVal, posHoriz, zVal )
     gl.uniformMatrix4fv( model_matrix, false, flatten( transformMatrix ));
 
     gl.drawArrays( gl.LINES, 0, 24 );
-}
-
-function drawSign()
-{
-    signPoints = [
-        vec2( -0.5, -0.5 ),
-        vec2( -0.5,  0.5 ),
-        vec2(  0.5, -0.5 ),
-        vec2(  0.5, -0.5 ),
-        vec2(  0.5,  0.5 ),
-        vec2( -0.5,  0.5 )
-    ];
-
-    signBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, signBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten( signPoints ), gl.STATIC_DRAW );
-    gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
-
-    var transformMatrix = mat4();
-    transformMatrix = mult( transformMatrix, ortho_matrix );
-    transformMatrix = mult( transformMatrix, scalem( vec3( 0.2, 0.2, 0.2 )));
-    transformMatrix = mult( transformMatrix, translate( 4, -4, 0 ));
-
-    gl.uniform4fv(color, flatten(vec4(1.0, 1.0, 1.0, 1.0)));
-
-    // Apply the transformation matrix
-    gl.uniformMatrix4fv(model_matrix, false, flatten(transformMatrix));
-
-    // Draw the lines
-    gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
 
 function drawAxes()
