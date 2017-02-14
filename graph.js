@@ -56,11 +56,13 @@ var colVal = 4;
 var CO2_1960 = [];
 var CO2_2013 = [];
 var CO2_world = [];
+var color1960 = [];
+var color2013 = [];
 
 // Lighting
 // variables needed for Phong lighting
 // the light is in front of the cube, which is located st z = -10
-var lightPosition = vec4(10, 10, -5, 0.0 );   
+var lightPosition = vec4(10, 10, -5, 0.0 );
 var lightAmbient = vec4(0.4, 0.4, 0.4, 1.0 );
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
@@ -95,7 +97,11 @@ window.onload = function init() {
 
         var key = event.keyCode;
 
-        if( key === 38 )       // 'Up' = Move camera up 0.25 units (+Y)
+        if( key === 67 )            // 'c' = cycle through cube colors
+        {
+            cycleColors();
+        }
+        else if( key === 38 )       // 'Up' = Move camera up 0.25 units (+Y)
         {
             y -= 0.25;
         }
@@ -214,6 +220,29 @@ window.onload = function init() {
         [ 1.0, 0.1, 0.5, 1.0 ]   // pink
     ];
 
+    // 8 colors for 8 bars //TODO
+    color1960 = [
+        [ 1.0, 0.0, 0.0, 1.0 ],  // red
+        [ 1.0, 0.5, 0.0, 1.0 ],  // orange
+        [ 1.0, 1.0, 0.0, 1.0 ],  // yellow
+        [ 0.0, 1.0, 0.0, 1.0 ],  // green
+        [ 0.0, 0.0, 1.0, 1.0 ],  // blue
+        [ 0.0, 1.0, 0.8, 1.0 ],  // turquoise/mint
+        [ 0.6, 0.0, 0.6, 1.0 ],  // purple
+        [ 1.0, 0.1, 0.5, 1.0 ]   // pink
+    ];
+
+    color2013 = [
+        [ 0.5, 0.0, 0.0, 1.0 ],  // red
+        [ 0.6, 0.3, 0.0, 1.0 ],  // orange
+        [ 0.5, 0.5, 0.0, 1.0 ],  // yellow
+        [ 0.0, 0.4, 0.0, 1.0 ],  // green
+        [ 0.0, 0.0, 0.5, 1.0 ],  // blue
+        [ 0.0, 0.3, 0.4, 1.0 ],  // turquoise/mint
+        [ 0.2, 0.0, 0.3, 1.0 ],  // purple
+        [ 0.5, 0.0, 0.2, 1.0 ]   // pink
+    ];
+
     // Yearly CO2 emissions in kt
 
     CO2_1960 = [
@@ -267,7 +296,7 @@ window.onload = function init() {
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
-    
+
     var vNormal = gl.getAttribLocation( program, "vNormal" );
     gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vNormal );
@@ -305,12 +334,12 @@ window.onload = function init() {
        flatten(ambientProduct));
     gl.uniform4fv(gl.getUniformLocation(program, "diffuseProduct"),
        flatten(diffuseProduct) );
-    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"), 
-       flatten(specularProduct) );  
-    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"), 
+    gl.uniform4fv(gl.getUniformLocation(program, "specularProduct"),
+       flatten(specularProduct) );
+    gl.uniform4fv(gl.getUniformLocation(program, "lightPosition"),
        flatten(lightPosition) );
-       
-    gl.uniform1f(gl.getUniformLocation(program, 
+
+    gl.uniform1f(gl.getUniformLocation(program,
        "shininess"),materialShininess);
 
     // Draw the primitives
@@ -376,18 +405,34 @@ function quad( a, b, c, d )
      var normal = vec3(normal);
 
 
-     points.push(vertices[a]); 
-     normalsArray.push(normal); 
-     points.push(vertices[b]); 
-     normalsArray.push(normal); 
-     points.push(vertices[c]); 
-     normalsArray.push(normal);   
-     points.push(vertices[a]);  
-     normalsArray.push(normal); 
-     points.push(vertices[c]); 
-     normalsArray.push(normal); 
-     points.push(vertices[d]); 
-     normalsArray.push(normal);    
+     points.push(vertices[a]);
+     normalsArray.push(normal);
+     points.push(vertices[b]);
+     normalsArray.push(normal);
+     points.push(vertices[c]);
+     normalsArray.push(normal);
+     points.push(vertices[a]);
+     normalsArray.push(normal);
+     points.push(vertices[c]);
+     normalsArray.push(normal);
+     points.push(vertices[d]);
+     normalsArray.push(normal);
+}
+
+// Rotate Color Values
+function cycleColors( )
+{
+    var temp1960 = color1960[0];
+    var temp2013 = color2013[0];
+
+    for( var i = 0; i < color1960.length - 1; i++)
+    {
+        color1960[i] = color1960[i+1];
+        color2013[i] = color2013[i+1];
+    }
+
+    color1960[color1960.length - 1] = temp1960;
+    color2013[color2013.length - 1] = temp2013;
 }
 
 function drawRectPrism( numBar, dataVal, recent )
@@ -407,19 +452,17 @@ function drawRectPrism( numBar, dataVal, recent )
     if ( recent )
     {
         zVal = 0.0;
-        // colVal = 4;
-        colVal = 3;   // green
+        colVal = color2013[numBar - 1];
     }
     else
     {
         zVal = 1.0;
-        // colVal = 6;
-        colVal = 5;  // cyan
+        colVal = color1960[numBar - 1];
     }
 
     transformMatrix = mult( transformMatrix, translate( posHoriz, 0.0, zVal ));
 
-    gl.uniform4fv( color, flatten( colors[ colVal ] ));
+    gl.uniform4fv( color, flatten( colVal ));
     gl.uniformMatrix4fv( model_matrix, false, flatten( transformMatrix ));
 
     // Draw the array (Triangles or Triangle_strip)

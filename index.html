@@ -10,7 +10,7 @@ uniform mat4 model_matrix;
 
 // Lighting
 attribute vec3 vNormal;  // normals for each vertex
-// uniforms for lighting 
+// uniforms for lighting
 uniform vec4 ambientProduct, diffuseProduct, specularProduct;
 uniform vec4 lightPosition;
 uniform float shininess;
@@ -23,19 +23,19 @@ void main()
 
 
     vec3 pos = (model_matrix * vPosition).xyz;
-    
+
     //fixed light postion
-    
+
     vec3 light = lightPosition.xyz;
     vec3 L = normalize( light - pos );
-    
+
     vec3 E = normalize( -pos );
     vec3 H = normalize( L + E );
-    
+
     vec4 NN = vec4(vNormal,0);
 
     // Transform vertex normal into eye coordinates
-       
+
     vec3 N = normalize( (model_matrix*NN).xyz);
 
     // Compute terms in the illumination equation
@@ -46,14 +46,14 @@ void main()
 
     float Ks = pow( max(dot(N, H), 0.0), shininess );
     vec4  specular = Ks * specularProduct;
-    
+
     if( dot(L, N) < 0.0 ) {
     specular = vec4(0.0, 0.0, 0.0, 1.0);
-    } 
+    }
 
     gl_Position = model_matrix * vPosition;
     fColor = ambient + diffuse +specular;
-    
+
     fColor.a = 1.0;
 }
 </script>
@@ -83,6 +83,10 @@ void main() {
 <script type="text/javascript" src="graph.js"></script>
 
 <body>
+    <h1>CO2 Emissions by Region</h1>
+    <h4>by Katrina Wijaya and Karen Li</h4>
+    <h6>TODO LEGEND + AXES</h6>
+    <h6>TODO TEXTURE FIX</h6>
     <canvas id="gl-canvas" width="1000" height="1000">
     Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
