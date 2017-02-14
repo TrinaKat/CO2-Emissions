@@ -6,6 +6,8 @@ Using CO2 emission data from Carbon Dioxide Information Analysis Center, Environ
 
 View website at https://ucla-wi17-cs174a.github.io/midterm-hackathon07/
 
+Tested on Chrome and Firefox.
+
 # Legend
 
 X-axis -- Lists the following regions in order: Central Europe and the Baltics, East Asia and Pacific, European Union, Latin America and Carribean, Middle East and North Africa, North America, South Asia, Sub-Saharan Africa
