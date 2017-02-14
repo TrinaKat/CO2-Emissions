@@ -77,6 +77,19 @@ var ambientProduct, diffuseProduct, specularProduct;
 var viewerPos;
 var normalsArray = [];
 
+// Texture
+var texCoordsArray = []; //TEXTURE
+var texture; //TEXTURE
+var texCoord = [ //TEXTURE
+    vec2(0, 0),
+    vec2(0, 1),
+    vec2(1, 1),
+    vec2(1, 0)
+];
+var enableTexture = true;
+var tBuffer;
+var vTexCoord;
+
 
 window.onload = function init() {
 
@@ -342,6 +355,26 @@ window.onload = function init() {
     gl.uniform1f(gl.getUniformLocation(program,
        "shininess"),materialShininess);
 
+    // TEXTURE TODO
+    uniform_enableTexture = gl.getUniformLocation(program, "enableTexture"); //TEXTURE
+
+    //makeTexture();
+    vTexCoord = gl.getAttribLocation( program, "vTexCoord" ); //TEXTURE
+    gl.vertexAttribPointer( vTexCoord, 2, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vTexCoord );
+
+    tBuffer = gl.createBuffer(); //TEXTURE
+    gl.bindBuffer( gl.ARRAY_BUFFER, tBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(texCoordsArray), gl.STATIC_DRAW );
+
+    //
+    // Initialize a texture
+    //
+
+    var image = document.getElementById("texImage"); //TEXTURE
+
+    configureTexture( image ); //TEXTURE
+
     // Draw the primitives
   render();
 };
@@ -369,15 +402,46 @@ function render()
         drawRectPrism( i, CO2_2013[ i - 1 ], true );
     }
 
-
-    /*drawRectPrism( 1, 250000 );
-    drawRectPrism( 2, 1000000 );
-    drawRectPrism( 3, 14500000 );*/
-
-    // drawSign();
-
     window.requestAnimFrame(render);
 }
+
+function makeTexture()
+{
+    //makeSign(1, 0, 3, 2);
+
+    vTexCoord = gl.getAttribLocation( program, "vTexCoord" ); //TEXTURE
+    gl.vertexAttribPointer( vTexCoord, 2, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vTexCoord );
+
+    tBuffer = gl.createBuffer(); //TEXTURE
+    gl.bindBuffer( gl.ARRAY_BUFFER, tBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(aatexCoordsArray), gl.STATIC_DRAW );
+
+    //
+    // Initialize a texture
+    //
+
+    var image = document.getElementById("texImage"); //TEXTURE
+
+    configureTexture( image ); //TEXTURE
+
+}
+
+function configureTexture( image ) { //TEXTURE
+    texture = gl.createTexture();
+    gl.bindTexture( gl.TEXTURE_2D, texture );
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image );
+    gl.generateMipmap( gl.TEXTURE_2D );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER,
+                      gl.NEAREST_MIPMAP_LINEAR );
+    gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
+
+    gl.uniform1i(gl.getUniformLocation(program, "texture"), 0);
+
+    //gl.bindTexture( gl.TEXTURE_2D, null );
+}
+
 
 function cubePoints()
 {
@@ -407,16 +471,28 @@ function quad( a, b, c, d )
 
      points.push(vertices[a]);
      normalsArray.push(normal);
+     texCoordsArray.push(texCoord[1]);
+
      points.push(vertices[b]);
      normalsArray.push(normal);
+     texCoordsArray.push(texCoord[0]);
+
      points.push(vertices[c]);
      normalsArray.push(normal);
+     texCoordsArray.push(texCoord[3]);
+
      points.push(vertices[a]);
      normalsArray.push(normal);
+     texCoordsArray.push(texCoord[1]);
+
      points.push(vertices[c]);
      normalsArray.push(normal);
+     texCoordsArray.push(texCoord[3]);
+
      points.push(vertices[d]);
      normalsArray.push(normal);
+     texCoordsArray.push(texCoord[2]);
+
 }
 
 // Rotate Color Values
@@ -570,6 +646,7 @@ function drawSign()
 
 function drawAxes()
 {
+    enableTexture = false;
     // Create unit cross with 4 vertices (0.5 + 0.5 = 1)
     axisPoints = [
         vec3( 0.0, 0.0, 0.0 ),
@@ -607,8 +684,5 @@ function drawAxes()
     // Draw the lines
     gl.drawArrays(gl.LINES, 0, 6);
 
-    // Make sure the cube buffer is bound
-    // gl.bindBuffer( gl.ARRAY_BUFFER, vertexBuffer );
-    // gl.vertexAttribPointer( gl.getAttribLocation( program, "vPosition" ), 4, gl.FLOAT, false, 0, 0 );
-
+    enableTexture = true;
 }

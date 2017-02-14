@@ -16,11 +16,13 @@ uniform vec4 lightPosition;
 uniform float shininess;
 varying vec4 fColor;
 
+//TEXTURE
+attribute  vec2 vTexCoord;
+varying vec2 fTexCoord;
+
 void main()
 {
-    // gl_Position is a special variable a vertex shader is responsible for setting
-    // gl_Position = model_matrix * vPosition;
-
+    fTexCoord = vTexCoord;
 
     vec3 pos = (model_matrix * vPosition).xyz;
 
@@ -68,10 +70,24 @@ uniform vec4 color;
 //////////////////////////
 varying vec4 fColor;
 
+//TEXTURE
+varying  vec2 fTexCoord;
+uniform sampler2D texture;
+uniform bool enableTexture;
+
 void main() {
     // gl_FragColor is a special variable a fragment shader is responsible for setting
-  // gl_FragColor = fColor * color;
-  gl_FragColor = fColor *  color;
+    gl_FragColor = fColor *  color * texture2D( texture, fTexCoord );
+    // if( enableTexture )
+    // {
+    //   //gl_FragColor = texture2D( texture, fTexCoord );
+    //   //gl_FragColor = color + vec4( 1.0, 0.1, 0.5, 1.0 );
+    //   gl_FragColor = fColor * color * texture2D( texture, fTexCoord ); //TEXTURE
+    // }
+    // else
+    // {
+    //   gl_FragColor = fColor * color;
+    // }
 }
 </script>
 
@@ -98,6 +114,7 @@ void main() {
     <h4> [c] -- cycle the colours of the bars </h4>
     <h4> [n]/[w] -- narrow/widen the field of view while maintaining square aspect </h4>
     <h4> [r] -- reset to starting view </h4>
+    <img id = "texImage" src = "pattern.jpg" hidden></img>
 </body>
 
 </html>
