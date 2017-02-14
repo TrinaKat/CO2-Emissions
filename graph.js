@@ -218,7 +218,7 @@ window.onload = function init() {
         vec4( 1.0, 0.0, 1.0, 1.0 )
     ];
 
-    // 8 colors for 8 bars //TODO
+    // 8 colors for 8 bars
     color1960 = [
         [ 1.0, 0.0, 0.0, 1.0 ],  // red
         [ 1.0, 0.5, 0.0, 1.0 ],  // orange
@@ -290,7 +290,6 @@ window.onload = function init() {
     cubePoints();
 
     // Create and store data into the normals buffer
-    // TODO: there was a warning??? about index out of range or whatever
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
@@ -593,8 +592,10 @@ function outlineCube( scaleVal, posHoriz, zVal )
 
 function drawAxes()
 {
+    // Set enableTexture to false and send to fragment shader
     enableTexture = false;
     gl.uniform1f(uniform_enableTexture, enableTexture);
+
     // Create unit cross with 4 vertices (0.5 + 0.5 = 1)
     axisPoints = [
         vec3( 0.0, 0.0, 0.0 ),
