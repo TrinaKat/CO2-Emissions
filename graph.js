@@ -314,32 +314,6 @@ function render(timeStamp)
 
     gl.drawArrays( gl.TRIANGLES, 0, numVertices );
 
-
-    // // draw one rectangle by streching a cube in the y-axis
-    // // apply the correct matrix transformation to the points for each cube, then draw cube and outline 
-    // gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(mult(modelTransformMatrix, scalem(1, 5, 1))));
-    // // draw the outline
-    // drawOutline();
-    // // change the colour for the cube
-    // gl.uniform4fv(currentColourLoc, colors[7]); 
-    // // draw the cube 
-    // drawCube();
-
-    // // draw all 8 cubes and outlines 
-    // for (var i = 0; i < 8; i++) {
-    //     // order of transformations: rotate, scale, then translate (since you read from to top to get matrix transformation order)
-    //     tempModelTransform = mult(modelTransformMatrix, translate(cubeCenters[i][0], cubeCenters[i][1], cubeCenters[i][2]));
-    //     scaleAndRotateCube();
-    //     // apply the correct matrix transformation to the points for each cube, then draw cube and outline 
-    //     gl.uniformMatrix4fv(modelTransformMatrixLoc, false, flatten(tempModelTransform));
-    //     // draw the outline
-    //     drawOutline();
-    //     // change the colour for the cube
-    //     gl.uniform4fv(currentColourLoc, colors[(colourIndexOffset + i) % 8]); 
-    //     // draw the cube 
-    //     drawCube();
-    // }
-
     // render again (repeatedly as long as program is running)
     requestAnimationFrame( render );
 }
