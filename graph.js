@@ -270,66 +270,9 @@ window.onload = function init()   // this is like int main() in C
         }
     });
 
-    // // populate the points array 
-    // generateCube();
-
-    // // populate the outline points array
-    // generateCubeOutline();
-
     // start drawing cubes and repeatedly call this function
     render(0);
 }
-
-// // generate vertices for the cube points using triangle strip (14 points total)
-// function generateCube() {
-//     var vertexTriangleStripOrder = [6, 5, 2, 1, 0, 5, 4, 6, 7, 2, 3, 0, 7, 4];
-//     var length = vertexTriangleStripOrder.length;
-//     for (var i = 0; i < length; ++i) {
-//         points.push(vertices[vertexTriangleStripOrder[i]]);
-//     }
-// }
-
-// // generate vertices for the cube outline
-// function generateCubeOutline() {
-//     // generate lines for front face of the cube
-//     outlinePoints.push(vertices[0]);
-//     for (var i = 1; i < 4; i++) {
-//         outlinePoints.push(vertices[i]);
-//         outlinePoints.push(vertices[i]);
-//     }
-//     outlinePoints.push(vertices[0]);
-//     // generate lines for the back face of the cube
-//     outlinePoints.push(vertices[4]);
-//     for (var j = 5; j < 8; j++) {
-//         outlinePoints.push(vertices[j]);
-//         outlinePoints.push(vertices[j]);
-//     }
-//     outlinePoints.push(vertices[4]);
-//     // generate four lines to connect the top face to the bottom face
-//     for (var k = 0; k < 4; k++) {
-//         outlinePoints.push(vertices[k]);
-//         outlinePoints.push(vertices[k+4]);
-//     }
-// }
-
-// function drawCube() {
-//     // bind the current buffer that we want to draw (the one with the points)
-//     gl.bindBuffer( gl.ARRAY_BUFFER, vBuffer );
-//     gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.DYNAMIC_DRAW );
-//     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
-//     gl.enableVertexAttribArray( vPosition );
-//     gl.drawArrays( gl.TRIANGLE_STRIP, 0, NumVertices );  // draw cube using triangle strip
-// }
-
-// function drawOutline() {
-//     // bind the current buffer that we want to draw (the one with the points)
-//     gl.bindBuffer( gl.ARRAY_BUFFER, vOutlineBuffer );
-//     gl.bufferData( gl.ARRAY_BUFFER, flatten(outlinePoints), gl.DYNAMIC_DRAW );
-//     gl.vertexAttribPointer( vPosition, 4, gl.FLOAT, false, 0, 0 );  // tell attribute how to get data out of buffer and binds current buffer to the attribute; vPosition will always be bound to vBuffer now
-//     gl.enableVertexAttribArray( vPosition );
-//     gl.uniform4fv(currentColourLoc, colors[8]);  // make the outline white 
-//     gl.drawArrays( gl.LINES, 0, NumOutlinePoints );
-// }
 
 function quarternionRotate(angle, axis) {
     // ignore the 4th element of the axis vector when normalizing
