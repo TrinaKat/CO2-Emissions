@@ -262,6 +262,15 @@ window.onload = function init() {
 
     cubePoints();
 
+    // Create and store data into the normals buffer
+    var nBuffer = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
+    
+    var vNormal = gl.getAttribLocation( program, "vNormal" );
+    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+
     // Create and store data into vertex buffer
     // Create an empty buffer object to store the vertex buffer
     vertexBuffer = gl.createBuffer();
