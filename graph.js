@@ -63,7 +63,7 @@ var color2013 = [];
 // variables needed for Phong lighting
 // the light is in front of the cube, which is located st z = -10
 var lightPosition = vec4(15, -10, 25, 0.0 );
-var lightAmbient = vec4(0.4, 0.4, 0.4, 1.0 );
+var lightAmbient = vec4(0.8, 0.8, 0.8, 1.0 );
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
 var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
