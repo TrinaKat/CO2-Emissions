@@ -79,9 +79,9 @@ var texCoordsArray = []; //TEXTURE
 var texture; //TEXTURE
 var texCoord = [ //TEXTURE
     vec2(0, 0),
-    vec2(0, 1),
-    vec2(1, 1),
-    vec2(1, 0)
+    vec2(0, 0.5),
+    vec2(0.5, 0.5),
+    vec2(0.5, 0)
 ];
 var enableTexture = true;
 var tBuffer;
@@ -382,8 +382,8 @@ function render()
 
     for ( var i = 1; i <= CO2_1960.length; i++ )
     {
-        drawRectPrism( i, CO2_1960[ i - 1 ], false );
-        drawRectPrism( i, CO2_2013[ i - 1 ], true );
+        drawRectPrism( i, CO2_1960[ i - 1 ], false, false );
+        drawRectPrism( i, CO2_2013[ i - 1 ], true, false );
     }
 
     window.requestAnimFrame(render);
@@ -487,7 +487,7 @@ function cycleColors( )
     color2013[color2013.length - 1] = temp2013;
 }
 
-function drawRectPrism( numBar, dataVal, recent )
+function drawRectPrism( numBar, dataVal, recent, selected )
 {
     gl.bindBuffer( gl.ARRAY_BUFFER, vertexBuffer );
     gl.vertexAttribPointer( gl.getAttribLocation( program, "vPosition" ), 4, gl.FLOAT, false, 0, 0 );
@@ -514,8 +514,23 @@ function drawRectPrism( numBar, dataVal, recent )
 
     transformMatrix = mult( transformMatrix, translate( posHoriz, 0.0, zVal ));
 
-    gl.uniform4fv( color, flatten( colVal ));
+    if( selected )
+    {
+        gl.uniform4fv( color, flatten( vec4( 1.0, 1.0, 1.0, 1.0 )));
+    }
+    else
+    {
+        gl.uniform4fv( color, flatten( colVal ));
+    }
+
     gl.uniformMatrix4fv( model_matrix, false, flatten( transformMatrix ));
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, tBuffer);
+    gl.enableVertexAttribArray(vTexCoord);
+    gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
+
+    // Bind the texture
+    gl.bindTexture(gl.TEXTURE_2D, texture);
 
     // Draw the array (Triangles or Triangle_strip)
     gl.drawArrays( gl.TRIANGLES, 0, 36 );
@@ -567,6 +582,9 @@ function outlineCube( scaleVal, posHoriz, zVal )
         vec3( 1.0, 1.0, 0.0 )
     ];
 
+    enableTexture = false;
+    gl.uniform1f(uniform_enableTexture, enableTexture);
+
     // Create and bind buffer
     outlineBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, outlineBuffer );
@@ -588,6 +606,9 @@ function outlineCube( scaleVal, posHoriz, zVal )
     gl.uniformMatrix4fv( model_matrix, false, flatten( transformMatrix ));
 
     gl.drawArrays( gl.LINES, 0, 24 );
+
+    enableTexture = true;
+    gl.uniform1f(uniform_enableTexture, enableTexture);
 }
 
 function drawAxes()
