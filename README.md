@@ -1,4 +1,4 @@
-# midterm-hackathon07
+# CO2 Emissions
 
 Katrina Wijaya and Karen Li
 
@@ -6,7 +6,7 @@ Using CO2 emission data from Carbon Dioxide Information Analysis Center, Environ
 
 View website at https://trinakat.github.io/CO2-Emissions/
 
-Tested on Chrome and Firefox.
+Tested on Chrome and Firefox. Part of a data visualization project.
 
 # Legend
 
