@@ -489,7 +489,7 @@ function cycleColors( )
 
 function drawRectPrism( numBar, dataVal, recent, selected )
 {
-    
+
     gl.bindBuffer( gl.ARRAY_BUFFER, vertexBuffer );
     gl.vertexAttribPointer( gl.getAttribLocation( program, "vPosition" ), 4, gl.FLOAT, false, 0, 0 );
     var transformMatrix = mat4();
@@ -527,6 +527,7 @@ function drawRectPrism( numBar, dataVal, recent, selected )
     gl.uniformMatrix4fv( model_matrix, false, flatten( transformMatrix ));
 
     gl.bindBuffer(gl.ARRAY_BUFFER, tBuffer);
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(texCoordsArray), gl.STATIC_DRAW );
     gl.enableVertexAttribArray(vTexCoord);
     gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
 
