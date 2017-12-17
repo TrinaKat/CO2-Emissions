@@ -489,6 +489,7 @@ function cycleColors( )
 
 function drawRectPrism( numBar, dataVal, recent, selected )
 {
+    
     gl.bindBuffer( gl.ARRAY_BUFFER, vertexBuffer );
     gl.vertexAttribPointer( gl.getAttribLocation( program, "vPosition" ), 4, gl.FLOAT, false, 0, 0 );
     var transformMatrix = mat4();
